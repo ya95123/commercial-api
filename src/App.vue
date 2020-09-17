@@ -17,6 +17,8 @@
         :items="desserts"
         :search="search"
       ></v-data-table>
+        <!-- loading
+        loading-text="最新商機資訊馬上就要出現啦..." -->
     </v-card>
   </v-app>
 </template>
@@ -36,7 +38,27 @@ export default {
     desserts: []
   }),
   mounted () {
+    this.axios.get('https://www.trade.gov.tw/Api/Get/pages?nodeid=45&timeRestrict=true')
+      .then(response => {
+        console.log(response)
 
+        this.$data.desserts = response.data.map(d => {
+          return {
+            area: d.PageSummary,
+            time: d.PagePublishTime,
+            title: d.PageTitle
+          }
+        })
+
+        let n = 0
+        for (let i = 0; i <= response.data.length; i++) {
+          n++
+          this.$data.desserts[i].number = n
+        }
+      })
+      .catch(() => {
+        console.log('status:check')
+      })
   }
 }
 </script>
