@@ -58,7 +58,6 @@ export default {
   data: () => ({
     search: '',
     expanded: [],
-    // singleExpand: false,
     headers: [
       { text: '項目', align: 'center', width: '5%', value: 'number' },
       { text: '地區', align: 'center', width: '20%', value: 'area' },
