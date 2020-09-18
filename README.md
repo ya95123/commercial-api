@@ -1,24 +1,5 @@
-# capi
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# 全球商機資訊
+#### API 來源：[全球商機資訊](https://www.trade.gov.tw/Api/Get/pages?nodeid=45&timeRestrict=true) 
+#### 公開資料網站：[經濟部國際貿易局 經貿資訊網](https://www.trade.gov.tw/World/List.aspx?code=7020&nodeID=45&areaID=4&country=b645Lit5ZyL5aSn6Zm4) 
+**資料儲存皆為近 3-5 日，共 350 筆資料** <br>
+使用 vue.js 搭配 vuetify 做簡易的 API 串接網站。
