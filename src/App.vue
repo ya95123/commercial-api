@@ -17,13 +17,15 @@
         :items="desserts"
         :search="search"
         :expanded.sync="expanded"
+        :loading="loading"
+        loading-text="全球商機資訊即將蒐集完成..."
         single-expand
         item-key="number"
         show-expand
         class="light"
       >
         <template v-slot:expanded-item="{ headers, item }">
-          <td class="py-3" style="color:#000;" :colspan="headers.length">{{ item.content }}</td>
+          <td class="py-3 content" style="color:#000;" :colspan="headers.length">{{ item.content }}</td>
         </template>
       </v-data-table>
     </v-card>
@@ -57,6 +59,7 @@ export default {
   name: 'App',
   data: () => ({
     search: '',
+    loading: true,
     expanded: [],
     headers: [
       { text: '項目', align: 'center', width: '5%', value: 'number' },
@@ -70,22 +73,29 @@ export default {
     this.axios.get('https://www.trade.gov.tw/Api/Get/pages?nodeid=45&timeRestrict=true')
       .then(response => {
         console.log(response)
+        // 限制最多筆為 400 筆
+        const dl = response.data.length - 350
+        response.data.splice(350, dl)
 
+        let n = 1
         this.$data.desserts = response.data.map(d => {
           return {
+            number: n++,
             area: delDot(d.PageSummary),
             time: delLine(delT(d.PagePublishTime)),
             title: d.PageTitle,
             content: d.PageContent
+            //  delSpace(delHtmlTag(d.PageContent))
           }
         })
-
-        let n = 0
-        for (let i = 0; i <= response.data.length; i++) {
-          n++
-          this.$data.desserts[i].number = n
+        // 此為正則 html 標籤
+        for (let i = 0; i < 350; i++) {
+          // n++
+          // this.$data.desserts[i].number = n
           this.$data.desserts[i].content = delSpace(delHtmlTag(this.$data.desserts[i].content))
         }
+        // 跑完資料，讓 loading 效果消失
+        this.$data.loading = false
       })
       .catch(() => {
         console.log('status:check')
